@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2] - 2025-07-07
+
+### Fixed
+- Fixed record ID truncation issue in `updateRecord` and `deleteRecord` methods
+  - Removed incorrect `parseInt()` calls that were converting string IDs (e.g., "2yt-real-estate-college") to numbers
+  - Both numeric and alphanumeric record IDs are now properly supported
+
 ## [0.2.1] - 2025-07-02
 
 ### Added

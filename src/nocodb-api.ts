@@ -265,7 +265,7 @@ export class NocoDBClient {
     const response = await this.client.patch(
       `/api/v2/tables/${table.id}/records`,
       {
-        [pkField]: parseInt(recordId),
+        [pkField]: recordId,
         ...data,
       },
     );
@@ -294,7 +294,7 @@ export class NocoDBClient {
     const pkField = pkColumn?.title || "ID";
 
     await this.client.delete(`/api/v2/tables/${table.id}/records`, {
-      data: { [pkField]: parseInt(recordId) },
+      data: { [pkField]: recordId },
     });
   }
 
