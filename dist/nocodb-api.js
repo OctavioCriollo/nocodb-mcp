@@ -74,6 +74,12 @@ class NocoDBClient {
     }
     // Base/Project operations
     async listBases() {
+        // NocoDB PAT tokens cannot list ALL bases (403 Forbidden).
+        // If a defaultBase is configured, return just that base directly.
+        if (this.config.defaultBase) {
+            const base = await this.getBase(this.config.defaultBase);
+            return [base];
+        }
         const response = await this.client.get("/api/v2/meta/bases");
         return response.data.list;
     }
