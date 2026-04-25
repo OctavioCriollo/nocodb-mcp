@@ -74,14 +74,36 @@ class NocoDBClient {
     }
     // Base/Project operations
     async listBases() {
-        // NocoDB PAT tokens cannot list ALL bases (403 Forbidden).
-        // If a defaultBase is configured, return just that base directly.
+        // Strategy:
+        // 1. Try /api/v2/meta/bases (works if token has org-level permissions)
+        // 2. Fall back to /api/v1/workspaces/{workspaceId}/bases using the default
+        //    workspaceId from /api/v1/meta/nocodb/info (no auth required, generic)
+        // 3. Last resort: if defaultBase configured, return that single base
+        try {
+            const response = await this.client.get("/api/v2/meta/bases");
+            return response.data.list;
+        }
+        catch (e) {
+            if (e.statusCode !== 403)
+                throw e;
+        }
+        try {
+            const info = await this.client.get("/api/v1/meta/nocodb/info");
+            const workspaceId = info.data?.defaultWorkspaceId;
+            if (workspaceId) {
+                const response = await this.client.get(`/api/v1/workspaces/${workspaceId}/bases`);
+                return response.data.list;
+            }
+        }
+        catch (e) {
+            if (e.statusCode !== 403)
+                throw e;
+        }
         if (this.config.defaultBase) {
             const base = await this.getBase(this.config.defaultBase);
             return [base];
         }
-        const response = await this.client.get("/api/v2/meta/bases");
-        return response.data.list;
+        throw new NocoDBError('Cannot list bases: insufficient permissions and no defaultBase configured');
     }
     async getBase(baseId) {
         const response = await this.client.get(`/api/v2/meta/bases/${baseId}`);
