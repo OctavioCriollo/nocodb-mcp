@@ -21,10 +21,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Initialize NocoDB client
+// Accepts NOCODB_BASE_URL or NOCODB_URL (alias for compatibility)
+// Accepts NOCODB_DEFAULT_BASE or NOCODB_BASE_ID (alias for compatibility)
 const config: NocoDBConfig = {
-  baseUrl: process.env.NOCODB_BASE_URL || "http://localhost:8080",
+  baseUrl: process.env.NOCODB_BASE_URL || process.env.NOCODB_URL || "http://localhost:8080",
   apiToken: process.env.NOCODB_API_TOKEN,
-  defaultBase: process.env.NOCODB_DEFAULT_BASE,
+  defaultBase: process.env.NOCODB_DEFAULT_BASE || process.env.NOCODB_BASE_ID,
 };
 
 if (!config.apiToken && !process.env.NOCODB_AUTH_TOKEN) {
@@ -42,7 +44,7 @@ const nocodb = new NocoDBClient(config);
 const server = new Server(
   {
     name: "nocodb-mcp",
-    version: "0.1.0",
+    version: "0.3.0",
   },
   {
     capabilities: {

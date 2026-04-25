@@ -57,13 +57,13 @@ export class NocoDBClient {
 
   // Base/Project operations
   async listBases(): Promise<NocoDBBase[]> {
-    const response = await this.client.get("/api/v1/db/meta/projects");
+    const response = await this.client.get("/api/v2/meta/bases");
     return response.data.list;
   }
 
   async getBase(baseId: string): Promise<NocoDBBase> {
     const response = await this.client.get(
-      `/api/v1/db/meta/projects/${baseId}`,
+      `/api/v2/meta/bases/${baseId}`,
     );
     return response.data;
   }
@@ -71,13 +71,13 @@ export class NocoDBClient {
   // Table operations
   async listTables(baseId: string): Promise<NocoDBTable[]> {
     const response = await this.client.get(
-      `/api/v1/db/meta/projects/${baseId}/tables`,
+      `/api/v2/meta/bases/${baseId}/tables`,
     );
     return response.data.list;
   }
 
   async getTable(tableId: string): Promise<NocoDBTable> {
-    const response = await this.client.get(`/api/v1/db/meta/tables/${tableId}`);
+    const response = await this.client.get(`/api/v2/meta/tables/${tableId}`);
     return response.data;
   }
 
@@ -87,7 +87,7 @@ export class NocoDBClient {
     columns: any[],
   ): Promise<NocoDBTable> {
     const response = await this.client.post(
-      `/api/v1/db/meta/projects/${baseId}/tables`,
+      `/api/v2/meta/bases/${baseId}/tables`,
       {
         table_name: tableName,
         title: tableName,
@@ -98,13 +98,13 @@ export class NocoDBClient {
   }
 
   async deleteTable(tableId: string): Promise<void> {
-    await this.client.delete(`/api/v1/db/meta/tables/${tableId}`);
+    await this.client.delete(`/api/v2/meta/tables/${tableId}`);
   }
 
   // Column operations
   async listColumns(tableId: string): Promise<NocoDBColumn[]> {
     // Get columns from table info since dedicated columns endpoint doesn't exist
-    const response = await this.client.get(`/api/v1/db/meta/tables/${tableId}`);
+    const response = await this.client.get(`/api/v2/meta/tables/${tableId}`);
     return response.data.columns || [];
   }
 

@@ -1,7 +1,7 @@
 {
-  "name": "@andrewlwn77/nocodb-mcp",
-  "version": "0.2.2",
-  "description": "MCP server for NocoDB - Open source Airtable alternative",
+  "name": "@octaviocriollo/nocodb-mcp",
+  "version": "0.3.0",
+  "description": "NocoDB MCP server - 25 tools, fixed for NocoDB v2 API (2026+). Fork of andrewlwn77/nocodb-mcp with v1→v2 endpoint migration.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
@@ -20,17 +20,18 @@
     "nocodb",
     "database",
     "airtable",
-    "model-context-protocol"
+    "model-context-protocol",
+    "v2-api"
   ],
-  "author": "MCP Servers Contributors",
+  "author": "OctavioCriollo (fork fix) | Original: andrewlwn77",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/modelcontextprotocol/servers.git"
+    "url": "git+https://github.com/OctavioCriollo/nocodb-mcp.git"
   },
-  "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/nocodb",
+  "homepage": "https://github.com/OctavioCriollo/nocodb-mcp",
   "bugs": {
-    "url": "https://github.com/modelcontextprotocol/servers/issues"
+    "url": "https://github.com/OctavioCriollo/nocodb-mcp/issues"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.6.0",
