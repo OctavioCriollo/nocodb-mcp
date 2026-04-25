@@ -1,0 +1,53 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.databaseTools = void 0;
+exports.databaseTools = [
+    {
+        name: "list_bases",
+        description: "List all available NocoDB bases/projects",
+        inputSchema: {
+            type: "object",
+            properties: {},
+        },
+        handler: async (client) => {
+            const bases = await client.listBases();
+            return {
+                bases: bases.map((base) => ({
+                    id: base.id,
+                    title: base.title,
+                    status: base.status,
+                    created_at: base.created_at,
+                    updated_at: base.updated_at,
+                })),
+                count: bases.length,
+            };
+        },
+    },
+    {
+        name: "get_base_info",
+        description: "Get detailed information about a specific base/project",
+        inputSchema: {
+            type: "object",
+            properties: {
+                base_id: {
+                    type: "string",
+                    description: "The ID of the base/project",
+                },
+            },
+            required: ["base_id"],
+        },
+        handler: async (client, args) => {
+            const base = await client.getBase(args.base_id);
+            return {
+                base: {
+                    id: base.id,
+                    title: base.title,
+                    status: base.status,
+                    created_at: base.created_at,
+                    updated_at: base.updated_at,
+                },
+            };
+        },
+    },
+];
+//# sourceMappingURL=database.js.map
