@@ -70,10 +70,10 @@ export class NocoDBClient {
     }
 
     try {
-      const info = await this.client.get("/api/v1/meta/nocodb/info");
+      const info = await this.client.get("/api/v2/meta/nocodb/info");
       const workspaceId = info.data?.defaultWorkspaceId;
       if (workspaceId) {
-        const response = await this.client.get(`/api/v1/workspaces/${workspaceId}/bases`);
+        const response = await this.client.get(`/api/v2/meta/workspaces/${workspaceId}/bases`);
         return response.data.list;
       }
     } catch (e: any) {
